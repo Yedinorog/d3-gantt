@@ -56,7 +56,7 @@
       yAxis: {
         width: 15,
         dynamicHeight: true,
-        elementHeight: 50
+        elementHeight: 20
       },
 
       xAxis: {
@@ -160,6 +160,7 @@
 
       element.append('text')
              .style('text-anchor', 'middle')
+             .style('dominant-baseline', 'middle') // <-(2) centrar en alto de barra
              .attr('transform', function(elem) {
                return this.elementLabelTranslate(elem);
              }.bind(this))
@@ -221,9 +222,8 @@
      * @return {string} 'translate([x], [y])'
      */
     elementLabelTranslate: function(elem) {
-      return 'translate(' + (this.elementWidth(elem) / 2) + ', ' + (this.yAxisScale().bandwidth() / 2) + ')';
+      return 'translate(' + (this.elementWidth(elem) / 2) + ', ' + (this.params.yAxis.elementHeight / 2) + ')';
     },
-
 
     /**
      * Displays the x axis.
