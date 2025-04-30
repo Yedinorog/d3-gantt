@@ -72,13 +72,9 @@
         }
       }
     },
-
-
     /**
      * Initializes the gantt chart.
-     *
      * Determines the time domain and sets configuration parameters.
-     *
      * @param params {object} user defined parameters that will overwrite the default parameters
      */
     init: function(params) {
@@ -92,15 +88,12 @@
         });
 
         this.params.endTime = this.params.data[this.params.data.length - 1].end;
-
         this.params.data.sort(function(a, b) {
           return a.start - b.start;
         });
-
         this.params.startTime = this.params.data[0].start;
       }
     },
-
 
     /**
      * Displays axes and elements.
@@ -110,17 +103,14 @@
       if (this.params.yAxis.dynamicHeight) {
         this.params.height = this.params.yAxis.elementHeight * this.params.activities.length;
       }
-
       // re-calculate the width of the diagram if explicit distance between ticks should be used
       if (this.params.xAxis.dynamicWidth) {
         var numberOfTicks = this.params.xAxis.interval.range(this.params.startTime, this.params.endTime).length;
         this.params.width = this.params.xAxis.tickDistance * numberOfTicks;
       }
-
       this.drawXAxis();
       this.drawYAxis();
       this.initTooltips();
-
       // create a separate container in order to enable scrolling on overflow with fixed axes
       var chartContainer = d3.select(this.params.node)
                              .attr('class', 'gantt-chart')
@@ -129,13 +119,11 @@
                              .attr('height', this.params.height)
                              .attr('width', this.params.width)
                              .attr('style', 'left: ' + this.params.yAxis.width + 'px');
-
       var chartNode = chartContainer.append('svg')
                                     .attr('preserveAspectRatio', 'xMinYMin meet')
                                     .attr('class', 'chart')
                                     .attr('width', this.params.width)
                                     .attr('height', this.params.height);
-
       // display the elements based on the provided data
       var element = chartNode.selectAll('svg')
                              .data(this.params.data).enter()
@@ -143,7 +131,6 @@
                              .attr('transform', function(elem) {
                                return this.elementTranslate(elem);
                              }.bind(this));
-
       element.append('rect')
              .attr('fill', function(elem) {
                if (elem.fillColor)
@@ -157,7 +144,6 @@
              .attr('width', function(elem) {
                return this.elementWidth(elem);
              }.bind(this));
-
       element.append('text')
              .style('text-anchor', 'middle')
              .attr('transform', function(elem) {
@@ -167,8 +153,6 @@
                return elem.text;
              });
     },
-
-
     /**
      * Calculates the x and y position of an element in the diagram.
      *
@@ -178,7 +162,6 @@
     elementTranslate: function(elem) {
       return 'translate(' + this.xAxisScale()(elem.start) + ', ' + this.yAxisScale()(elem.activity) + ')';
     },
-
 
     /**
      * Returns the time scale of the x axis.
