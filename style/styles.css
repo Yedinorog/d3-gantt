@@ -1,0 +1,8 @@
+.x-axis-top .tick text {
+  text-anchor: start;
+  transform: translateX(50%);
+}
+
+.x-axis-bottom .tick text {
+  font-size: 0.8em;
+}
