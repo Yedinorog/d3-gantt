@@ -11,16 +11,13 @@
     factory(d3, $);
   }
 }(function (d3, $) {
-
   /**
    * Contains functionality and configuration parameters for drawing gantt charts.
-   *
    * @class d3.ganttChart
    */
   d3.ganttChart = {
     /**
      * Default parameters that can be overwritten by the user.
-     *
      * @property node {string} ID of the element the gantt chart will be bound to
      * @property width {number} chart width
      * @property height {number} chart height
@@ -86,7 +83,6 @@
         this.params.data.sort(function(a, b) {
           return a.end - b.end;
         });
-
         this.params.endTime = this.params.data[this.params.data.length - 1].end;
         this.params.data.sort(function(a, b) {
           return a.start - b.start;
@@ -94,7 +90,6 @@
         this.params.startTime = this.params.data[0].start;
       }
     },
-
     /**
      * Displays axes and elements.
      */
@@ -162,7 +157,6 @@
     elementTranslate: function(elem) {
       return 'translate(' + this.xAxisScale()(elem.start) + ', ' + this.yAxisScale()(elem.activity) + ')';
     },
-
     /**
      * Returns the time scale of the x axis.
      * @return {object} d3.scaleTime
@@ -173,8 +167,6 @@
                .range([0, this.params.width])
                .clamp(true);
     },
-
-
     /**
      * Returns the scale of activities represented by the y axis.
      * @return {object} d3.scaleBand
@@ -184,8 +176,6 @@
                .domain(this.params.activities.map(function(x) { return x.name; }))
                .range([0, this.params.height]);
     },
-
-
     /**
      * Calculates the width of an element based on the start and end time.
      *
@@ -195,8 +185,6 @@
     elementWidth: function(elem) {
       return this.xAxisScale()(elem.end) - this.xAxisScale()(elem.start);
     },
-
-
     /**
      * Calculates the x and y offset of the label within a specific element.
      *
@@ -206,19 +194,15 @@
     elementLabelTranslate: function(elem) {
       return 'translate(' + (this.elementWidth(elem) / 2) + ', ' + (this.yAxisScale().bandwidth() / 2) + ')';
     },
-
-
     /**
      * Displays the x axis.
      */
     drawXAxis: function() {
       var diagramNode = this.params.node;
-
       // creating a separate container allows to leave the x axis fixed
       var xAxisNode = d3.select(this.params.node)
                         .append('div')
                         .attr('class', 'gantt-chart-x-axis');
-
       // scroll handling with fixed axis
       var xAxisElement = $(this.params.node).find('.gantt-chart-x-axis');
 
@@ -226,17 +210,14 @@
         var ganttContainter = $(diagramNode).find('.gantt-chart-container');
         ganttContainter.scrollLeft(xAxisElement.scrollLeft());
       });
-
       // show x axis
       var xAxis = d3.axisBottom()
                     .scale(this.xAxisScale())
                     .tickFormat(d3.timeFormat(this.params.xAxis.label.format))
                     .ticks(this.params.xAxis.interval);
-
       var xAxisSvg = xAxisNode.append('svg')
                               .attr('width', this.params.width + this.params.yAxis.width)
                               .attr('height', this.params.height + this.params.xAxis.height);
-
       xAxisSvg.append('g')
               .attr('class', 'x axis')
               .attr('transform', 'translate(' + this.params.yAxis.width + ',' + this.params.height + ')')
@@ -248,8 +229,6 @@
                 .attr('dy', this.params.xAxis.label.dy)
                 .attr('transform', 'rotate(' + this.params.xAxis.label.rotation + ')');
     },
-
-
     /**
      * Displays the y axis.
      */
@@ -258,7 +237,6 @@
       var yAxisNode = d3.select(this.params.node)
                         .append('div')
                         .attr('class', 'gantt-chart-y-axis');
-
       // handle horizontal scrolling
       var diagramNode = this.params.node;
       var yAxisElement = $(this.params.node).find('.gantt-chart-y-axis');
@@ -267,12 +245,10 @@
         var ganttContainter = $(diagramNode).find('.gantt-chart-container');
         ganttContainter.scrollTop(xAxisElement.scrollTop());
       });
-
       // show y axis
       var yAxisSvg = yAxisNode.append('svg')
                               .attr('width', this.params.yAxis.width)
                               .attr('height', this.params.height);
-
       var yAxis = d3.axisLeft().scale(this.yAxisScale()).tickSize(0);
 
       this.params.yAxis.elementHeight = this.yAxisScale().bandwidth();
@@ -282,15 +258,12 @@
               .attr('transform', 'translate(' + (this.params.yAxis.width - 1) + ', 0)')
               .call(yAxis);
     },
-
-
     /**
      * Creates the tooltips for the y axis to show the activity descriptions.
      */
     initTooltips: function() {
       var activities = this.params.activities;
       var node = $(this.params.node)[0];
-
       // create one div that will be the tooltip
       var tooltip = d3.select(this.params.node)
                     	.append('div')
@@ -298,7 +271,6 @@
                     	.style('position', 'absolute')
                     	.style('z-index', '10')
                     	.style('visibility', 'hidden');
-
       // when hovering over a y axis label, show the div and move to the correct position and update the displayed description
       d3.selectAll('.y .tick')
         .on('mouseover', function(){
