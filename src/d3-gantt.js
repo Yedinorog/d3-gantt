@@ -187,7 +187,6 @@
     },
     /**
      * Calculates the x and y offset of the label within a specific element.
-     *
      * @param elem {object} element the label belongs to
      * @return {string} 'translate([x], [y])'
      */
@@ -205,7 +204,6 @@
                         .attr('class', 'gantt-chart-x-axis');
       // scroll handling with fixed axis
       var xAxisElement = $(this.params.node).find('.gantt-chart-x-axis');
-
       xAxisElement.scroll(function(e) {
         var ganttContainter = $(diagramNode).find('.gantt-chart-container');
         ganttContainter.scrollLeft(xAxisElement.scrollLeft());
