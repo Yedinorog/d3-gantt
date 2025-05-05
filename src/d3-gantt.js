@@ -14,13 +14,11 @@
 
   /**
    * Contains functionality and configuration parameters for drawing gantt charts.
-   *
    * @class d3.ganttChart
    */
   d3.ganttChart = {
     /**
      * Default parameters that can be overwritten by the user.
-     *
      * @property node {string} ID of the element the gantt chart will be bound to
      * @property width {number} chart width
      * @property height {number} chart height
@@ -52,13 +50,11 @@
       data: [],
       endTime: new Date(),
       startTime: new Date(),
-
       yAxis: {
         width: 15,
         dynamicHeight: true,
         elementHeight: 20
       },
-
       xAxis: {
         height: 35,
         dynamicWidth: true,
@@ -72,13 +68,9 @@
         }
       }
     },
-
-
     /**
      * Initializes the gantt chart.
-     *
      * Determines the time domain and sets configuration parameters.
-     *
      * @param params {object} user defined parameters that will overwrite the default parameters
      */
     init: function(params) {
@@ -100,8 +92,6 @@
         this.params.startTime = this.params.data[0].start;
       }
     },
-
-
     /**
      * Displays axes and elements.
      */
@@ -116,11 +106,9 @@
         var numberOfTicks = this.params.xAxis.interval.range(this.params.startTime, this.params.endTime).length;
         this.params.width = this.params.xAxis.tickDistance * numberOfTicks;
       }
-
       this.drawXAxis();
       this.drawYAxis();
       this.initTooltips();
-
       // create a separate container in order to enable scrolling on overflow with fixed axes
       var chartContainer = d3.select(this.params.node)
                              .attr('class', 'gantt-chart')
@@ -129,13 +117,11 @@
                              .attr('height', this.params.height)
                              .attr('width', this.params.width)
                              .attr('style', 'left: ' + this.params.yAxis.width + 'px');
-
       var chartNode = chartContainer.append('svg')
                                     .attr('preserveAspectRatio', 'xMinYMin meet')
                                     .attr('class', 'chart')
                                     .attr('width', this.params.width)
                                     .attr('height', this.params.height);
-
       // display the elements based on the provided data
       var element = chartNode.selectAll('svg')
                              .data(this.params.data).enter()
@@ -168,19 +154,14 @@
                return elem.text;
              });
     },
-
-
     /**
      * Calculates the x and y position of an element in the diagram.
-     *
      * @param elem {object} element data of a data point
      * @return {string} 'translate([x], [y])'
      */
     elementTranslate: function(elem) {
       return 'translate(' + this.xAxisScale()(elem.start) + ', ' + this.yAxisScale()(elem.activity) + ')';
     },
-
-
     /**
      * Returns the time scale of the x axis.
      * @return {object} d3.scaleTime
@@ -191,8 +172,6 @@
                .range([0, this.params.width])
                .clamp(true);
     },
-
-
     /**
      * Returns the scale of activities represented by the y axis.
      * @return {object} d3.scaleBand
@@ -202,11 +181,8 @@
                .domain(this.params.activities.map(function(x) { return x.name; }))
                .range([0, this.params.height]);
     },
-
-
     /**
      * Calculates the width of an element based on the start and end time.
-     *
      * @param elem {object} element data
      * @return {number} width of the element
      */
